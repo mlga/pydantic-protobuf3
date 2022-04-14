@@ -13,6 +13,7 @@ build-backend = "poetry.core.masonry.api"
 python = "^3.10"
 
 [tool.poetry.dev-dependencies]
+pre-commit = "~2.18"
 pytest = "~7.1"
 
 [tool.black]
@@ -20,11 +21,7 @@ line-length = 120
 target-version = ['py310']
 
 [tool.isort]
-line_length = 120
-multi_line_output = 3
-force_grid_wrap = 5
-include_trailing_comma = true
-combine_as_imports = true
+profile = "black"
 
 [tool.coverage.run]
 omit = [
@@ -61,4 +58,3 @@ format-jinja = """
 [tool.poetry-dynamic-versioning.substitution]
 enable = true
 files = ["*/_version.py"]
-
