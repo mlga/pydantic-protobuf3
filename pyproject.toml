@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "pydantic-protobuf3"
+version = "0.0.0"
+description = ""
+authors = ["mlga <github@mlga.io>"]
+license = "MIT"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+pytest = "~7.1"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+
+[tool.isort]
+line_length = 120
+multi_line_output = 3
+force_grid_wrap = 5
+include_trailing_comma = true
+combine_as_imports = true
+
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "return NotImplemented",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.pytest]
+junit_family = 'xunit2'
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+format-jinja = """
+    {%- if distance == 0 -%}
+        {{ serialize_pep440(base, stage, revision) }}
+    {%- elif revision is not none -%}
+        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
+    {%- else -%}
+        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
+    {%- endif -%}
+"""
+
+[tool.poetry-dynamic-versioning.substitution]
+enable = true
+files = ["*/_version.py"]
+
