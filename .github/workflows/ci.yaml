@@ -1,0 +1,62 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8, 3.9, 3.10]
+        poetry-version: [1.1.13]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: abatilo/actions-poetry@v2.1.3
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: install
+        run: poetry install --no-interaction --no-ansi
+      - name: pre-commit hook
+        run: poe pre-commit
+      - name: pytest
+        run: poe test
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: test
+    if: startsWith(github.ref, 'refs/tags') == false
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: true
+
+  release:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.10
+      - uses: abatilo/actions-poetry@v2.1.3
+        with:
+          poetry-version: 1.1.13
+      - name: build
+        run: poetry build
+      - name: PyPi Publish
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
