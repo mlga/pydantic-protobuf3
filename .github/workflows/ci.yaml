@@ -22,8 +22,9 @@ jobs:
         run: |
           poetry config virtualenvs.create false --local
           poetry install --no-interaction --no-ansi
-      - name: pre-commit hook
-        run: pre-commit run --all-files --show-diff-on-failure
+      - uses: pre-commit/action@v2.0.3
+        with:
+          extra_args: --all-files --show-diff-on-failure
       - name: pytest
         run: pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3
       - uses: actions/upload-artifact@v3
@@ -42,7 +43,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
+          file: coverage.xml
           fail_ci_if_error: true
 
   release:
