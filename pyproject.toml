@@ -18,6 +18,7 @@ pytest = "~7.1"
 pylint = "~2.13"
 poethepoet = "^0.13.1"
 pytest-cov = "^3.0.0"
+poetry-exec-plugin = "^0.3.2"
 
 [tool.poe.tasks]
 test = "pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3"

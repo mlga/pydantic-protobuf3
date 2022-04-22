@@ -19,9 +19,7 @@ jobs:
         with:
           poetry-version: 1.1.13
       - name: install
-        run: |
-          pip install poetry-exec-plugin
-          poetry install --no-interaction --no-ansi
+        run: poetry install --no-interaction --no-ansi
       - name: pre-commit hook
         run: poe pre-commit
       - name: pytest
