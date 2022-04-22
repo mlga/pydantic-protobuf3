@@ -26,6 +26,10 @@ jobs:
         run: pre-commit run --all-files --show-diff-on-failure
       - name: pytest
         run: pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.xml
 
   coverage:
     runs-on: ubuntu-latest
