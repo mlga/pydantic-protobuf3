@@ -21,9 +21,9 @@ jobs:
       - name: install
         run: poetry install --no-interaction --no-ansi
       - name: pre-commit hook
-        run: poe pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure
       - name: pytest
-        run: poe test
+        run: pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3
 
   coverage:
     runs-on: ubuntu-latest
