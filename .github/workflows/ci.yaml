@@ -23,7 +23,7 @@ jobs:
           poetry config virtualenvs.create false --local
           poetry install --no-interaction --no-ansi
       - name: pylint
-        run: pylint -rn -sn --disable missing-module-docstring --disable missing-function-docstring --disable missing-class-docstring --disable fixme
+        run: pylint --rcfile pyproject.toml -rn -sn pydantic_protobuf3 tests
       - name: pytest
         run: pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3
       - uses: actions/upload-artifact@v3

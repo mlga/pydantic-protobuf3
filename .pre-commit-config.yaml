@@ -32,11 +32,7 @@ repos:
           [
               "-rn", # Only display messages
               "-sn", # Don't display the score
-              # Those below are only cluttering the results, will be fixed some day.
-              '--disable', 'missing-module-docstring',
-              '--disable', 'missing-function-docstring',
-              '--disable', 'missing-class-docstring',
-              '--disable', 'fixme',
+              "--rcfile", "pyproject.toml",
           ]
   - repo: https://github.com/asottile/pyupgrade
     rev: v2.32.0
