@@ -24,10 +24,12 @@ jobs:
 #          path: ~/.cache/pypoetry/virtualenvs
 #          key: venv-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: install
-        run: poetry install --no-interaction --no-ansi
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction --no-ansi
 #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: activate venv
-        run: source `poetry env info --path`/bin/activate
+        run: source .venv/bin/activate
       - name: pylint
         run: pylint --rcfile pyproject.toml -rn -sn pydantic_protobuf3 tests
       - name: pytest
