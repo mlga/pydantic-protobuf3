@@ -19,6 +19,7 @@ pylint = "~2.13"
 poethepoet = "^0.13.1"
 pytest-cov = "^3.0.0"
 poetry-exec-plugin = "^0.3.2"
+hypothesis = "^6.45.0"
 
 [tool.poe.tasks]
 test = "pytest --cov-config pyproject.toml --cov-report term:skip-covered --cov-report html --cov-report xml --cov pydantic_protobuf3"
@@ -27,6 +28,9 @@ pre-commit = "pre-commit run --all-files --show-diff-on-failure"
 [tool.black]
 line-length = 120
 target-version = ['py310']
+
+[tool.pylint.basic]
+good-names = 'a,b,c,i,j,k,ex,x,y,z,_'
 
 [tool.pylint.messages_control]
 disable = [
@@ -55,7 +59,7 @@ exclude_lines = [
     "if __name__ == .__main__.:",
 ]
 
-[tool.pytest]
+[tool.pytest.ini_options]
 junit_family = 'xunit2'
 
 [tool.poetry-dynamic-versioning]
